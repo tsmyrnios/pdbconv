@@ -1,0 +1,37 @@
+{
+	"name":"Protein Data Bank",
+	"version":"3.3",
+	"recordFormats":
+	[
+		{
+			"name":"ATOM",
+            "pattern":"^ATOM.*",
+			"fields": 
+			[
+				{ "name":"recordName", "start":"0", "length":"6", "data-type":"string", "description":"Record name" },
+				{ "name":"serialNumber", "start":"6", "length":"5", "datatype":"integer", "description":"serial number." },
+				{ "name":"atomName", "start":"12", "length":"4", "datatype":"string", "description":"Atom name." },
+				{ "name":"alternateLocation", "start":"16", "length":"1", "datatype":"string", "description":"Alternate location indicator." },
+				{ "name":"resourceName", "start":"17", "length":"3", "datatype":"string", "description":"Residue name." },
+				{ "name":"chainIdentifier", "start":"21", "length":"1", "datatype":"string", "description":"Chain identifier." },
+				{ "name":"residueSequence", "start":"22", "length":"4", "datatype":"integer", "description":"Residue sequence number." },
+				{ "name":"residueInsertionCode", "start":"26", "length":"1", "datatype":"string", "description":"Code for insertion of residues." },
+				{ "name":"x", "start":"30", "length":"8", "datatype":"number", "description":"Orthogonal coordinates for X in Angstroms." },
+				{ "name":"y", "start":"38", "length":"8", "datatype":"number", "description":"Orthogonal coordinates for Y in Angstroms." },
+				{ "name":"z", "start":"46", "length":"8", "datatype":"number", "description":"Orthogonal coordinates for Z in Angstroms." },
+				{ "name":"occupancy", "start":"54", "length":"6", "datatype":"number", "description":"Occupancy." },
+				{ "name":"temperatureFactor", "start":"60", "length":"6", "datatype":"number", "description":"Temperature  factor." },
+				{ "name":"elementSymbol", "start":"76", "length":"2", "datatype":"string", "description":"Element symbol, right-justified." },
+				{ "name":"atomCharge", "start":"78", "length":"2", "datatype":"string", "description":"Charge  on the atom." }
+			]
+		},
+		{
+			"name":"END",
+            "pattern":"^END.*",
+			"fields":
+			[
+				{ "name":"recordName", "start":"0", "length":"6", "datatype":"string", "description":"Record name" }
+			]
+		}
+	]
+}

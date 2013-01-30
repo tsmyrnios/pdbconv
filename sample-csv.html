@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>CSV PDB Viewer Example</title>
+        <script src="d3.v3.min.js"></script>
+        <script>
+            d3.text("sample.csv", function(datasetText) {
+                // get the csv as a Javascript array
+                var parsedCSV = d3.csv.parse(datasetText).map(function(d){ 
+                    return { 
+                        x:parseFloat(d.x),
+                        y:parseFloat(d.y),
+                        z:parseFloat(d.z),
+                        temperatureFactor: parseFloat(d.temperatureFactor)
+                    }
+                });
+                
+                // sort on the z prop
+                var sortProp = function(d){ return d.z; };
+                parsedCSV.sort(function(a,b){ 
+                    return sortProp(a) < sortProp(b) ? -1 : (sortProp(a) > sortProp(b) ? 1 : 0);
+                });
+                
+                var mapX = function(d){ return d.x; },
+                    mapY = function(d){ return d.y; },
+                    mapZ = function(d){ return d.z; },
+                    mapT = function(d){ return d.temperatureFactor; };
+                var minX = d3.min(parsedCSV, mapX),
+                    maxX = d3.max(parsedCSV, mapX),
+                    minY = d3.min(parsedCSV, mapY),
+                    maxY = d3.max(parsedCSV, mapY),
+                    minZ = d3.min(parsedCSV, mapZ),
+                    maxZ = d3.max(parsedCSV, mapZ),
+                    minT = d3.min(parsedCSV, mapT),
+                    maxT = d3.max(parsedCSV, mapT);
+                
+                // get a scaled value within the range
+                var scale = function(val,min,max,scale){
+                    var range = parseFloat(max) - parseFloat(min);
+                    return ((parseFloat(val)-parseFloat(min))/range) * scale;
+                }
+                
+                var svg = d3.select("body")
+                    .append("svg")
+                    .attr("width", 960)
+                    .attr("height", 960)
+                    .append("g");
+                svg
+                    .selectAll("circle")
+                    .data(parsedCSV)
+                    .enter()
+                    .append("circle")
+                    .attr("cx", function(d){ return scale(d.x,minX,maxX, 930) + 10; })
+                    .attr("cy", function(d){ return scale(d.y,minY,maxY, 930) + 10; })
+                    .attr("r", function(d){ return scale(d.z,minZ,maxZ, 20) + 10; })
+                    .attr("fill", function(d){return "hsl("+ Math.round(scale(d.temperatureFactor,minT,maxT, 100)) + ",100%,50%)";});
+            });
+        </script>
+    </head>
+    <body>
+    </body>
+</html>
